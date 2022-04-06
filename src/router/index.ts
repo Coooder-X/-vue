@@ -16,7 +16,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/project',
     component: ProjectManage,
   }, {
-    path: '/authority/:projectName',
+    path: '/authority/:projectName/:projectId',
     component: EditAuthority,
   },
 ]

@@ -1,21 +1,31 @@
-interface Authority {
+export interface Authority {
 	readable: Boolean;
 	editable: Boolean;
 	deletable: Boolean;
 }	
 
-type Role = 'admin' | 'teamworker' | 'visitor';
+export interface User {
+	uid: string;
+	name: string;
+}
 
 interface RootState {
 	path: string;
 	uid: string;
 	loading: Boolean;
 	projectList: Project[];
+	authorList: Author[];
+	allUser: User[];
 }
 
-interface Project {
+export interface Author {
+	user: User;
+	role: 'admin' | 'teamworker' | 'visitor';
+}
+
+export interface Project {
 	id: number;
 	overviewImg: string;
 	projectName: string;
-	authorList: Author[];
+	// authorList: Author[];
 }

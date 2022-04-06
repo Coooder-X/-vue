@@ -75,7 +75,7 @@ export default defineComponent({
     };
     const onEditRight = () => {
       console.log("编辑权限");
-      router.push(`/authority/${props.projectName}`);
+      router.push(`/authority/${props.projectName}/${props.id}`);
     };
 
     return {
