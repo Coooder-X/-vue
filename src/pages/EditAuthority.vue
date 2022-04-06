@@ -4,7 +4,7 @@
       class="page-header"
       :icon="ArrowLeft"
       title="返回项目列表"
-      content="detail"
+      :content="projectName"
       @back="handleBack"
     />
 		<el-button class="add-member" type="primary" @click="dialogVisible = true">添加成员</el-button>
@@ -38,7 +38,7 @@
 <script lang='ts'>
 import { defineComponent, ref } from "vue";
 import { ArrowLeft } from "@element-plus/icons-vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import authority from '@/authority';
 
 export default defineComponent({
@@ -47,6 +47,9 @@ export default defineComponent({
   props: {},
   setup() {
     const router = useRouter();
+		const route = useRoute();
+
+		const projectName = route.params.projectName;
 		const dialogVisible = ref(false);
 
     const handleBack = () => {
@@ -69,6 +72,7 @@ export default defineComponent({
 				}
 			],
       ArrowLeft,
+			projectName,
 			dialogVisible,
 			handleAddMember,
       handleBack,

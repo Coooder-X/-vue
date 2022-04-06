@@ -76,5 +76,6 @@ export default defineComponent({
 
 .el-main {
   padding-top: 0%;
+  height: 100%;
 }
 </style>

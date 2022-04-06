@@ -4,8 +4,7 @@
     @mouseleave="onLeave"
     class="project-item"
     v-bind:style="{
-      backgroundImage:
-        'url(https://fc1tn.baidu.com/it/u=4244377917,516112550&fm=202&mola=new&crop=v1)',
+      backgroundImage: `url(${overviewImg})`,
     }"
   >
     <div v-show="isHover">
@@ -19,12 +18,12 @@
     </div>
   </div>
   <el-dialog v-model="dialogVisible" title="提示" width="30%">
-    <span>{{`确认删除项目 ${projectName} ?`}}</span>
+    <span>{{ `确认删除项目 ${projectName} ?` }}</span>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="handleDeleteProject">
-          Confirm
+          确定
         </el-button>
       </span>
     </template>
@@ -44,6 +43,10 @@ export default defineComponent({
     id: Number,
     overviewImg: String,
     projectName: String,
+    onDelete: {
+      type: Function,
+      default: () => {},
+    },
   },
   setup(props) {
     const router = useRouter();
@@ -51,8 +54,7 @@ export default defineComponent({
     const dialogVisible = ref(false);
 
     const handleDeleteProject = () => {
-      //delete
-      console.log("delete", props.id);
+      props.onDelete(props.id);
       dialogVisible.value = false;
     };
 
@@ -69,12 +71,12 @@ export default defineComponent({
     };
 
     const onViewDetail = () => {
-			console.log('查看信息');
-		}
-		const onEditRight = () => {
-			console.log('编辑权限');
-      router.push('/authority');
-		}
+      console.log("查看信息");
+    };
+    const onEditRight = () => {
+      console.log("编辑权限");
+      router.push(`/authority/${props.projectName}`);
+    };
 
     return {
       Delete,

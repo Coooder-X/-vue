@@ -1,5 +1,5 @@
 <template>
-  <div class="project-container">
+  <div class="project-container" v-loading="loading">
     <div class="add-project" @click="createProject">
         <el-icon :size="25">
           <component :is="Plus"></component>
@@ -11,13 +11,16 @@
         :id="item.id"
         :overviewImg="item.overviewImg"
         :projectName="item.projectName"
+        :onDelete="handleDeleteProject"
       ></project-item>
     </div>
   </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent } from "vue";
+import { computed, defineComponent, onMounted } from "vue";
+import { useStore } from 'vuex';
+import { useRouter } from "vue-router";
 import ProjectItem from "@/components/ProjectItem.vue";
 import { Plus } from "@element-plus/icons-vue";
 
@@ -27,55 +30,31 @@ export default defineComponent({
     ProjectItem,
   },
   setup() {
-    const projectList = [
-      {
-        id: 1,
-        overviewImg: "",
-        projectName: "prj1",
-        authorList: [
-          {
-            name: 'lzx',
-            role: 'admin',
-          }, {
-            name: 'hff',
-            role: 'teamworker'
-          }, {
-            name: 'lyh',
-            role: 'visitor'
-          }
-        ]
-      },
-      {
-        id: 2,
-        overviewImg: "",
-        projectName: "prj2",
-        authorList: [
-          {
-            name: 'lzx',
-            role: 'admin',
-          }
-        ]
-      },
-      {
-        id: 3,
-        overviewImg: "",
-        projectName: "prj3",
-        authorList: [
-          {
-            name: 'lzx',
-            role: 'admin',
-          }
-        ]
-      },
-    ];
+    const store = useStore();
+    const loading = computed(() => store.state.loading);
+    const projectList = computed(() => store.state.projectList);
+
+    onMounted(() => {
+      store.dispatch('getProject', {params: {id: store.state.uid}});
+      store.dispatch('setPath', useRouter().currentRoute.value.fullPath);
+    });
 
     function createProject() {
       //
     }
 
+    const handleDeleteProject = (id: number) => {
+      //delete
+      console.log("delete", id);
+      store.dispatch('deleteProject', {params: {id}});
+			store.dispatch('getProject', {params: {id: store.state.uid}});
+    };
+
     return {
       projectList,
+      loading,
       createProject,
+      handleDeleteProject,
       Plus,
     };
   },
@@ -113,6 +92,6 @@ export default defineComponent({
 }
 
 .add-project:hover {
-	background-color: rgb(240, 240, 240);
+	background-color: rgb(219, 219, 219);
 }
 </style>
