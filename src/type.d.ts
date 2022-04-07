@@ -2,20 +2,41 @@ export interface Authority {
 	readable: Boolean;
 	editable: Boolean;
 	deletable: Boolean;
-}	
+}
 
 export interface User {
 	uid: string;
 	name: string;
 }
 
-interface RootState {
+export interface RootState {
 	path: string;
 	uid: string;
+}
+
+export interface ProjectState {
 	loading: Boolean;
 	projectList: Project[];
 	authorList: Author[];
 	allUser: User[];
+}
+
+export enum FileType {
+	Category,
+	Folder,
+	File,
+}
+
+export interface TreeData {
+	id: string;
+	label: string;
+	type: FileType;
+	children?: TreeData[];
+}
+
+export interface DataSetState {
+	dataTree: TreeData | null;
+	loading: Boolean;
 }
 
 export interface Author {

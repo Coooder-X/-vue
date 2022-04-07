@@ -65,17 +65,6 @@
               <el-option label="协作者" value="teamworker" />
               <el-option label="游客" value="visitor" />
             </el-select>
-            <!-- <div style="text-align: right; margin-top: 20px">
-              <el-button size="small" type="text"
-                >取消</el-button
-              >
-              <el-button
-                size="small"
-                type="primary"
-                @click="handleEdit(scope.row.uid)"
-                >确定</el-button
-              >
-            </div> -->
             <template #reference>
               <el-button type="text">修改成员角色</el-button>
             </template>
@@ -148,10 +137,10 @@ export default defineComponent({
     const { projectName, projectId } = route.params;
     const addDialogVisible = ref(false);
     const editVisible = ref(false);
-    const loading = computed(() => store.state.loading);
-    const allUser = computed(() => store.state.allUser);
+    const loading = computed(() => store.state.project.loading);
+    const allUser = computed(() => store.state.project.allUser);
     const tableData = computed(() => {
-      return store.state.authorList.map((author: Author) => {
+      return store.state.project.authorList.map((author: Author) => {
         return {
           uid: author.user.uid,
           name: author.user.name,

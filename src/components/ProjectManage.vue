@@ -31,8 +31,8 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const loading = computed(() => store.state.loading);
-    const projectList = computed(() => store.state.projectList);
+    const loading = computed(() => store.state.project.loading);
+    const projectList = computed(() => store.state.project.projectList);
 
     onMounted(() => {
       store.dispatch('getProject', {params: {id: store.state.uid}});
@@ -47,7 +47,7 @@ export default defineComponent({
       //delete
       console.log("delete", id);
       store.dispatch('deleteProject', {params: {id}});
-			store.dispatch('getProject', {params: {id: store.state.uid}});
+			store.dispatch('getProject', {params: {id: store.state.project.uid}});
     };
 
     return {

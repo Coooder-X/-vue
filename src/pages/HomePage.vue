@@ -6,10 +6,10 @@
       <el-tabs v-model="activeName" @tab-click="handleClick" class="demo-tabs">
         <el-tab-pane label="项目管理" name="project">
           <!-- 项目管理<project-manage /> -->
-          <router-view></router-view>
+          <keep-alive><router-view></router-view></keep-alive>
         </el-tab-pane>
         <el-tab-pane label="数据导入" name="data">
-          数据导入<router-view></router-view>
+          <keep-alive><router-view></router-view></keep-alive>
         </el-tab-pane>
       </el-tabs>
     </el-main>
@@ -59,11 +59,17 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.el-tab-pane {
+  /* height: calc(100% - 50px); */
+  height: 100%;
+  background-color: rgb(240, 240, 240);
+}
 .demo-tabs > .el-tabs__content {
   padding: 32px;
   color: #6b778c;
   font-size: 32px;
   font-weight: 600;
+  height: 100%;
 }
 .tabContainer .el-tabs__header {
   background-color: white;

@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import HomePage from '@/pages/HomePage.vue';
+// import HomePage from '@/pages/HomePage.vue';
 import ProjectManage from '@/components/ProjectManage.vue';
-import Test from '@/pages/test.vue';
+import DataPage from '@/pages/DataPage.vue';
 import EditAuthority from '@/pages/EditAuthority.vue';
 import { RouteRecordRaw } from 'vue-router';
 
@@ -11,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
     component: ProjectManage,
   }, {
     path: '/data',
-    component: Test,
+    component: DataPage,
   }, {
     path: '/project',
     component: ProjectManage,
