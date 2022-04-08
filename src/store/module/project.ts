@@ -71,6 +71,9 @@ const projectModule = {
 		editMember(context: ActionContext<{}, {}>, param: any) {
 			axios.post('/api/project/editMember', param).then((res) => {
 			}).catch(e => { });
+		},
+		createProject(context: ActionContext<{}, {}>, param: any) {
+			axios.post('/api/project/createProject', param)
 		}
 	},
 	modules: {},

@@ -23,6 +23,7 @@ import { useStore } from 'vuex';
 import { useRouter } from "vue-router";
 import ProjectItem from "@/components/ProjectItem.vue";
 import { Plus } from "@element-plus/icons-vue";
+import { nanoid } from "nanoid";
 
 export default defineComponent({
   name: "ProjectManage",
@@ -40,7 +41,8 @@ export default defineComponent({
     });
 
     function createProject() {
-      //
+      store.dispatch('createProject', {id: nanoid(), overviewImg: 'https://dss2.bdstatic.com/8_V1bjqh_Q23odCf/pacific/1990359857.png', projectName: nanoid()});
+			store.dispatch('getProject', {params: {id: store.state.project.uid}});
     }
 
     const handleDeleteProject = (id: number) => {
