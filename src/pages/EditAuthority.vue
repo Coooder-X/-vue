@@ -1,6 +1,6 @@
 <template>
   <!-- header -->
-  <div class="page-header-container" v-loading="loading">
+  <div class="page-header-container">
     <el-page-header
       class="page-header"
       :icon="ArrowLeft"
@@ -17,7 +17,7 @@
   </div>
   <!-- 表格部分 -->
   <div class="page-content">
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="tableData" style="width: 100%" v-loading="loading">
       <el-table-column prop="name" label="成员" width="180" />
       <el-table-column prop="role" label="角色" width="180" />
       <el-table-column prop="readable" label="查看">

@@ -1,6 +1,6 @@
 <template>
   <div class="data-import-container">
-    <div class="page-header-container" v-loading="loading">
+    <div class="page-header-container">
       <el-page-header
         class="page-header"
         :icon="ArrowLeft"
@@ -17,10 +17,7 @@
         ref="ruleFormRef"
       >
         <el-form-item label="请选择数据分类:" prop="folder">
-          <el-select
-            v-model="form.folder"
-            placeholder="please select your zone"
-          >
+          <el-select v-model="form.folder" placeholder="数据分类">
             <el-option
               v-for="folder in folderList"
               :key="folder.id"
@@ -35,21 +32,30 @@
             placeholder="请输入数据名称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="请选择导入的文件:" prop="file">
+        <el-form-item label="请选择导入的文件:">
           <el-upload
             ref="upload"
-            class="upload-demo"
+            :http-request="httpRequest"
+            :on-preview="handlePreview"
+            :on-success="uploadSuccess"
+            :on-change="handleChangeFile"
+            :limit="1"
+            :on-exceed="handleExceed"
+          >
+            <!-- <el-upload
+            ref="upload"
             action="https://jsonplaceholder.typicode.com/posts/"
             :limit="1"
             :on-exceed="handleExceed"
             :auto-upload="false"
-          >
-            <template #trigger>
+          > -->
+            <el-button type="primary">select file</el-button>
+            <!-- <template #trigger>
               <el-button type="primary">select file</el-button>
-            </template>
-            <el-button class="ml-3" type="success" @click="submitUpload">
+            </template> -->
+            <!-- <el-button type="success" @click="submitUpload">
               upload to server
-            </el-button>
+            </el-button> -->
             <template #tip>
               <div class="el-upload__tip text-red">
                 limit 1 file, new file will cover the old file
@@ -73,7 +79,7 @@ import { computed, defineComponent, reactive, ref } from "vue";
 import { ArrowLeft } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { genFileId } from "element-plus";
+import { genFileId, UploadFile, UploadFiles } from "element-plus";
 import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
 import { FormInstance } from "element-plus";
 import { nanoid } from "nanoid";
@@ -95,8 +101,8 @@ export default defineComponent({
         label: "",
       },
       fileName: "",
-      file: {}, //upload.value,
     });
+    const fileList = reactive([] as any[]);
     const rules = reactive({
       folder: [{ required: true, message: "类别不能为空", trigger: "blur" }],
       fileName: [
@@ -108,7 +114,7 @@ export default defineComponent({
       router.back();
     };
     const submitForm = async (formEl: FormInstance | undefined) => {
-      submitUpload();
+      // submitUpload();
       if (!formEl) return;
       await formEl.validate((valid, fields) => {
         if (valid) {
@@ -117,8 +123,9 @@ export default defineComponent({
             newFid: nanoid(),
             folder: form.folder,
             fileName: form.fileName,
+            fileList: fileList,
           };
-          console.log("file", form.file);
+          console.log("file", fileList);
 
           store.dispatch("uploadFile", param);
           store.dispatch("getDataSet", { params: { uid: param.uid } });
@@ -140,8 +147,38 @@ export default defineComponent({
       upload.value!.handleStart(file);
     };
 
-    const submitUpload = () => {
-      upload.value!.submit();
+    const httpRequest = (option: never) => {
+      // fileList.push(option);
+      // console.log("option", option);
+    };
+
+    const handleChangeFile = (
+      uploadFile: UploadFile,
+      uploadFiles: UploadFiles
+    ) => {
+      console.log("changeFile", uploadFile);
+      fileList.push(uploadFile);
+      let reader = new FileReader();
+      reader.readAsText(uploadFile.raw as any);
+      reader.onload = (e) => {
+        console.log("reader", reader.result);
+        fileList.push({ fileInfo: uploadFile, content: reader.result });
+      };
+    };
+
+    const uploadSuccess = (
+      response: any,
+      uploadFile: UploadFile,
+      uploadFiles: UploadFiles
+    ) => {
+      console.log("uploadFile", uploadFile);
+    };
+
+    // const submitUpload = () => {
+    //   upload.value!.submit();
+    // };
+    const handlePreview: UploadProps["onPreview"] = (uploadFile) => {
+      console.log(uploadFile);
     };
 
     return {
@@ -150,10 +187,15 @@ export default defineComponent({
       rules,
       ruleFormRef,
       folderList,
+      handlePreview,
       submitForm,
       handleBack,
       handleExceed,
-      submitUpload,
+      uploadSuccess,
+      handleChangeFile,
+      fileList,
+      httpRequest,
+      // submitUpload,
     };
   },
 });
