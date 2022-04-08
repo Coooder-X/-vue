@@ -1,23 +1,31 @@
 <template>
   <el-container>
     <el-aside width="250px">
-      <tree-bar />
+      <tree-bar :onImport="goDataImport" />
     </el-aside>
-    <el-main class="main-container"> <router-view /> </el-main>
+    <el-main class="main-container"> <router-view></router-view> </el-main>
   </el-container>
 </template>
 
 <script lang='ts'>
 import { defineComponent } from "vue";
 import TreeBar from '@/components/TreeBar.vue';
+import { useRouter } from "vue-router";
+import DataImport from "@/components/DataImport.vue";
 
 export default defineComponent({
   components: {
     TreeBar,
+    DataImport,
   },
   setup() {
-    
+    const router = useRouter();
+    const goDataImport = () => {
+      console.log('inport');
+			router.push('/data/dataImport')
+		};
     return {
+      goDataImport
     };
   },
 });
@@ -41,6 +49,7 @@ export default defineComponent({
   width: 100%;
   height: 100%;
   margin-left: 10px;
+  padding: 0px;
   background-color: white;
 }
 .button-container {

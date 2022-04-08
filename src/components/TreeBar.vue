@@ -3,7 +3,9 @@
     <el-button type="text" :icon="FolderAdd" @click="createCategory"
       >创建分类</el-button
     >
-    <el-button type="text" :icon="Download">导入数据</el-button>
+    <el-button type="text" :icon="Download" @click="onImport"
+      >导入数据</el-button
+    >
   </div>
   <!-- @node-click="handleNodeClick" -->
   <el-tree :data="data"
@@ -60,14 +62,7 @@
 </template>
 
 <script lang='ts'>
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  reactive,
-  ref,
-  watch,
-} from "vue";
+import { computed, defineComponent, onMounted, reactive, ref } from "vue";
 
 import { nextTick } from "vue";
 // import { FileType, TreeData } from "@/type";
@@ -96,6 +91,13 @@ export interface TreeData {
 }
 
 export default defineComponent({
+	name: 'TreeBar',
+  props: {
+		onImport: {
+      type: Function,
+      default: () => {},
+    },
+  },
   setup() {
     const store = useStore();
     const isEditing = ref(false);
@@ -109,7 +111,8 @@ export default defineComponent({
     const newCategoryName = ref("");
     const inputFocus = ref();
 
-    const setRef = (el: any) => {//	自动获取 input 焦点
+    const setRef = (el: any) => {
+      //	自动获取 input 焦点
       inputFocus.value = el;
       if (el) nextTick(() => inputFocus.value.focus());
     };
@@ -161,7 +164,7 @@ export default defineComponent({
     const handleRename = (id: string, label: string) => {
       renameFlag.isRenaming = true;
       renameFlag.renameId = id;
-			renameFlag.newName = label;
+      renameFlag.newName = label;
     };
 
     const commitRename = () => {

@@ -40,7 +40,14 @@ const dataModule = {
 		},
 		renameFolder(context: ActionContext<{}, {}>, params: any) {
 			axios.post('/api/dataset/renameFolder', params);
-		}
+		},
+		uploadFile(context: ActionContext<{}, {}>, params: any) {
+			axios.post('/api/dataset/uploadFile', params);
+			// this.getDataSet(context, { params: { uid: params.uid } })
+		},
+		// notifGetDataSet(context: ActionContext<{}, {}>, params: any) {
+		// 	getDataSet(context, { params: { uid: params.uid } })
+		// }
 	},
 	modules: {},
 };

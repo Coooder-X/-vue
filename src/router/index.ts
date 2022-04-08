@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import ProjectManage from '@/components/ProjectManage.vue';
 import DataPage from '@/pages/DataPage.vue';
 import EditAuthority from '@/pages/EditAuthority.vue';
+import DataImport from '@/components/DataImport.vue';
 import { RouteRecordRaw } from 'vue-router';
 
 const routes: Array<RouteRecordRaw> = [
@@ -12,13 +13,19 @@ const routes: Array<RouteRecordRaw> = [
   }, {
     path: '/data',
     component: DataPage,
+    children: [
+      {
+        path: '/data/dataImport',
+        component: DataImport,
+      }
+    ]
   }, {
     path: '/project',
     component: ProjectManage,
   }, {
     path: '/authority/:projectName/:projectId',
     component: EditAuthority,
-  },
+  }, 
 ]
 
 const router = createRouter({
