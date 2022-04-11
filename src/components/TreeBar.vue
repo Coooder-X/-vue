@@ -8,7 +8,7 @@
     >
   </div>
   <!-- @node-click="handleNodeClick" -->
-  <el-tree :data="data"
+  <el-tree :data="data" @node-click="handleNodeClick"
     ><template #default="{ node, data }">
       <span class="tree-node">
         <div v-if="isEditing && data.label === ''">
@@ -77,6 +77,8 @@ import {
 import { nanoid } from "nanoid";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import router from "@/router";
+import { TreeNode } from "element-plus/es/components/table/src/table/defaults";
 
 export enum FileType {
   Category,
@@ -91,9 +93,9 @@ export interface TreeData {
 }
 
 export default defineComponent({
-	name: 'TreeBar',
+  name: "TreeBar",
   props: {
-		onImport: {
+    onImport: {
       type: Function,
       default: () => {},
     },
@@ -186,6 +188,14 @@ export default defineComponent({
       store.dispatch("getDataSet", { params: { uid: store.state.uid } });
     };
 
+    const handleNodeClick = (node: TreeNode, folder: any) => {
+      console.log(folder.data.id);
+      if (folder.data.type === FileType.File) {
+				router.push('/data');
+				router.push(`/data/file/${folder.data.id}`);
+      }
+    };
+
     return {
       FolderAdd,
       MoreFilled,
@@ -203,6 +213,7 @@ export default defineComponent({
       commitCreate,
       showIcon,
       createCategory,
+      handleNodeClick,
       option: [
         {
           value: 0,

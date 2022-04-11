@@ -35,27 +35,13 @@
         <el-form-item label="请选择导入的文件:">
           <el-upload
             ref="upload"
-            :http-request="httpRequest"
             :on-preview="handlePreview"
             :on-success="uploadSuccess"
             :on-change="handleChangeFile"
             :limit="1"
             :on-exceed="handleExceed"
           >
-            <!-- <el-upload
-            ref="upload"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :limit="1"
-            :on-exceed="handleExceed"
-            :auto-upload="false"
-          > -->
             <el-button type="primary">select file</el-button>
-            <!-- <template #trigger>
-              <el-button type="primary">select file</el-button>
-            </template> -->
-            <!-- <el-button type="success" @click="submitUpload">
-              upload to server
-            </el-button> -->
             <template #tip>
               <div class="el-upload__tip text-red">
                 limit 1 file, new file will cover the old file
@@ -147,17 +133,12 @@ export default defineComponent({
       upload.value!.handleStart(file);
     };
 
-    const httpRequest = (option: never) => {
-      // fileList.push(option);
-      // console.log("option", option);
-    };
-
     const handleChangeFile = (
       uploadFile: UploadFile,
       uploadFiles: UploadFiles
     ) => {
       console.log("changeFile", uploadFile);
-      fileList.push(uploadFile);
+      // fileList.push(uploadFile);
       let reader = new FileReader();
       reader.readAsText(uploadFile.raw as any);
       reader.onload = (e) => {
@@ -194,7 +175,6 @@ export default defineComponent({
       uploadSuccess,
       handleChangeFile,
       fileList,
-      httpRequest,
       // submitUpload,
     };
   },

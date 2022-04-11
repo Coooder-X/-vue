@@ -4,6 +4,7 @@ import ProjectManage from '@/components/ProjectManage.vue';
 import DataPage from '@/pages/DataPage.vue';
 import EditAuthority from '@/pages/EditAuthority.vue';
 import DataImport from '@/components/DataImport.vue';
+import FileDetail from '@/components/FileDetail.vue';
 import { RouteRecordRaw } from 'vue-router';
 
 const routes: Array<RouteRecordRaw> = [
@@ -17,6 +18,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/data/dataImport',
         component: DataImport,
+      },
+      {
+        path: '/data/file/:fid',
+        component: FileDetail,
       }
     ]
   }, {

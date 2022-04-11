@@ -37,6 +37,7 @@ export interface TreeData {
 export interface DataSetState {
 	dataTree: TreeData | null;
 	loading: Boolean;
+	file: any;
 }
 
 export interface Author {

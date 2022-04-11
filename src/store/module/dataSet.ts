@@ -3,8 +3,9 @@ import axios from 'axios';
 import { DataSetState } from '@/type';
 
 const initState: DataSetState = {
-    dataTree: null,
-    loading: false,
+	dataTree: null,
+	loading: false,
+	file: {},
 };
 
 const dataModule = {
@@ -15,7 +16,10 @@ const dataModule = {
 		getDataSet(state: DataSetState, payload: any) {
 			state.dataTree = payload;
 		},
-        setLoading(state: DataSetState, payload: any) {
+		getFile(state: DataSetState, payload: any) {
+			state.file = payload;
+		},
+		setLoading(state: DataSetState, payload: any) {
 			state.loading = payload;
 		},
 	},
@@ -43,11 +47,14 @@ const dataModule = {
 		},
 		uploadFile(context: ActionContext<{}, {}>, params: any) {
 			axios.post('/api/dataset/uploadFile', params);
-			// this.getDataSet(context, { params: { uid: params.uid } })
 		},
-		// notifGetDataSet(context: ActionContext<{}, {}>, params: any) {
-		// 	getDataSet(context, { params: { uid: params.uid } })
-		// }
+		getFile(context: ActionContext<{}, {}>, params: any) {
+			console.log('getFile params', params);
+			axios.get('/api/dataset/getFile', params).then((res) => {
+				console.log('getFile data', res.data);
+				context.commit('getFile', res.data);
+			});
+		}
 	},
 	modules: {},
 };
